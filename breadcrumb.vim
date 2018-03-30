@@ -16,7 +16,7 @@ function! BCecho()
         let new_level = foldlevel(current_line)
         " echomsg string([current_line, new_level, getline(current_line)])
         if new_level < current_level
-            call add(steps, current_line+1)
+            call add(steps, current_line)
             let current_level = new_level
         endif
     endwhile
