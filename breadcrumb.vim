@@ -1,10 +1,10 @@
-function! BCline(lineno)
+function! BCline(lineno)    " {{{
     let level = foldlevel(a:lineno)
     let line = tr(getline(a:lineno), "\t", " ")
     return printf("%d(%d):%s", a:lineno, level, line)
-endfunction
+endfunction " }}}
 
-function! BCecho()
+function! BCecho()  " {{{
     let start_line = line(".")
     let start_level = foldlevel(start_line)
 
@@ -29,4 +29,4 @@ function! BCecho()
         let i = i - 1
     endwhile
     echomsg BCline(start_line)
-endfunction
+endfunction " }}}
