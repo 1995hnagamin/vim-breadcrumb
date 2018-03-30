@@ -23,8 +23,8 @@ function! BCecho()
 
     let i = len(steps)-1
     while i >= 0
-        echomsg getline(steps[i])
-        echomsg getline(steps[i]+1)
+        echomsg BCline(steps[i])
+        echomsg BCline(steps[i]+1)
         echomsg '...'
         let i = i - 1
     endwhile
