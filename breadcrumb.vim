@@ -28,4 +28,5 @@ function! BCecho()
         echomsg '...'
         let i = i - 1
     endwhile
+    echomsg BCline(start_line)
 endfunction
