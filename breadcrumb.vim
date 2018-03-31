@@ -1,3 +1,8 @@
+if exists('g:loaded_breadcrumb')
+  finish
+endif
+let g:loaded_breadcrumb = 1
+
 let s:save_cpo = &cpo
 set cpo&vim
 "
