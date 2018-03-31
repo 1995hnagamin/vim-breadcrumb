@@ -1,3 +1,6 @@
+let s:save_cpo = &cpo
+set cpo&vim
+"
 function! BreadcrumbGetOffset() " {{{
     if exists('b:breadcrumb_offset')
         return b:breadcrumb_offset
@@ -48,3 +51,6 @@ function! BreadcrumbEchoMsg()   " {{{
     endwhile
     echomsg BreadcrumbLineText(start_lineno)
 endfunction " }}}
+
+let &cpo = s:save_cpo
+unlet s:save_cpo
