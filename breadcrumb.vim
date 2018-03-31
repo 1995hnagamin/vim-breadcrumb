@@ -1,3 +1,13 @@
+function! BreadcrumbGetOffset() " {{{
+    if exists('b:breadcrumb_offset')
+        return b:breadcrumb_offset
+    endif
+    if exists('g:breadcrumb_offset')
+        return g:breadcrumb_offset
+    endif
+    return 0
+endfunction " }}}
+
 function! BCline(lineno)    " {{{
     let level = foldlevel(a:lineno)
     let line = tr(getline(a:lineno), "\t", " ")
