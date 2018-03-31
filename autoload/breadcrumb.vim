@@ -1,6 +1,8 @@
 " breadcrumb.vim
 " Maintainer: NAGAMINE Hideaki
 
+scriptencoding utf-8
+
 if !exists('g:loaded_breadcrumb')
   finish
 endif
