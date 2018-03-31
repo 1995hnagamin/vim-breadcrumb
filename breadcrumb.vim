@@ -1,3 +1,6 @@
+" breadcrumb.vim
+" Maintainer: NAGAMINE Hideaki
+
 if exists('g:loaded_breadcrumb')
   finish
 endif
