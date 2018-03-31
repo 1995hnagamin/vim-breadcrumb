@@ -25,18 +25,18 @@ function! BCline(lineno)    " {{{
 endfunction " }}}
 
 function! BCecho()  " {{{
-    let start_line = line(".")
+    let start_lineno = line(".")
     let start_level = foldlevel(start_line)
 
-    let current_line = start_line
+    let current_lineno = start_lineno
     let current_level = start_level
     let steps = []
     while current_level > 0
-        let current_line = current_line - 1
-        let new_level = foldlevel(current_line)
-        " echomsg string([current_line, new_level, getline(current_line)])
+        let current_lineno = current_lineno - 1
+        let new_level = foldlevel(current_lineno)
+        " echomsg string([current_lineno, new_level, getline(current_lineno)])
         if new_level < current_level
-            call add(steps, current_line)
+            call add(steps, current_lineno)
             let current_level = new_level
         endif
     endwhile
@@ -48,5 +48,5 @@ function! BCecho()  " {{{
         echomsg '...'
         let i = i - 1
     endwhile
-    echomsg BCline(start_line)
+    echomsg BCline(start_lineno)
 endfunction " }}}
