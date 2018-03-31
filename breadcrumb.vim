@@ -18,7 +18,7 @@ function! BreadcrumbGetContext()    " {{{
     return 2
 endfunction " }}}
 
-function! BCline(lineno)    " {{{
+function! BreadcrumbLineText(lineno)    " {{{
     let level = foldlevel(a:lineno)
     let line = tr(getline(a:lineno), "\t", " ")
     return printf("%d(%d):%s", a:lineno, level, line)
@@ -41,10 +41,10 @@ function! BreadcrumbEchoMsg()   " {{{
 
     let i = len(steps)-1
     while i >= 0
-        echomsg BCline(steps[i])
-        echomsg BCline(steps[i]+1)
+        echomsg BreadcrumbLineText(steps[i])
+        echomsg BreadcrumbLineText(steps[i]+1)
         echomsg '...'
         let i = i - 1
     endwhile
-    echomsg BCline(start_lineno)
+    echomsg BreadcrumbLineText(start_lineno)
 endfunction " }}}
