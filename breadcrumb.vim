@@ -26,10 +26,9 @@ endfunction " }}}
 
 function! BCecho()  " {{{
     let start_lineno = line(".")
-    let start_level = foldlevel(start_line)
 
     let current_lineno = start_lineno
-    let current_level = start_level
+    let current_level = foldlevel(start_lineno)
     let steps = []
     while current_level > 0
         let current_lineno = current_lineno - 1
