@@ -1,7 +1,7 @@
 " breadcrumb.vim
 " Maintainer: NAGAMINE Hideaki
 
-if exists('g:loaded_breadcrumb')
+if !exists('g:loaded_breadcrumb')
   finish
 endif
 let g:loaded_breadcrumb = 1
