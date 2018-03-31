@@ -34,7 +34,6 @@ function! BCecho()  " {{{
     while current_level > 0
         let current_lineno = current_lineno - 1
         let new_level = foldlevel(current_lineno)
-        " echomsg string([current_lineno, new_level, getline(current_lineno)])
         if new_level < current_level
             call add(steps, current_lineno)
             let current_level = new_level
