@@ -24,7 +24,7 @@ function! BCline(lineno)    " {{{
     return printf("%d(%d):%s", a:lineno, level, line)
 endfunction " }}}
 
-function! BCecho()  " {{{
+function! BreadcrumbEchoMsg()   " {{{
     let start_lineno = line(".")
 
     let current_lineno = start_lineno
