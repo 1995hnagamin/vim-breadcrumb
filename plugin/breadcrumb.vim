@@ -9,7 +9,7 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 if !exists(":BreadcrumbEchoMsg")
-    command BreadcrumbEchoMsg :call BreadcrumbEchoMsg()
+    command BreadcrumbEchoMsg :call breadcrumb#echomsg()
 endif
 
 let &cpo = s:save_cpo
