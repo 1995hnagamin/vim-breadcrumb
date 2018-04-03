@@ -86,15 +86,22 @@ endfunction " }}}
 function! breadcrumb#echomsg()  " {{{
     let current_lineno = line(".")
     let steps = s:find_steps(current_lineno)
+    let hunks = s:hunks(steps, current_lineno)
 
-    let i = 0
-    while i < len(steps)
-        echomsg breadcrumb#linetext(steps[i])
-        echomsg breadcrumb#linetext(steps[i]+1)
-        echomsg '...'
-        let i = i + 1
-    endwhile
-    echomsg breadcrumb#linetext(current_lineno)
+    let emit_separater = 0
+    for hunk in hunks
+        if emit_separater
+            echomsg "..."
+        endif
+        let emit_separater = 1
+
+        let [startpos, endpos] = hunk
+        let lineno = startpos
+        while lineno <= endpos
+            echomsg breadcrumb#linetext(lineno)
+            let lineno = lineno + 1
+        endwhile
+    endfor
 endfunction " }}}
 
 let &cpo = s:save_cpo
