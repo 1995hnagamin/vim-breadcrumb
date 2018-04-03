@@ -52,6 +52,11 @@ function! s:find_steps(initial_lineno)    " {{{
     return reverse(steps)
 endfunction " }}}
 
+function! s:does_include(hunk, lineno)  " {{{
+    let [startpos, endpos] = a:hunk
+    return startpos <= a:lineno && a:lineno <= endpos
+endfunction "}}}
+
 function! breadcrumb#echomsg()  " {{{
     let current_lineno = line(".")
     let steps = s:find_steps(current_lineno)
