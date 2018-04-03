@@ -37,29 +37,79 @@ function! breadcrumb#linetext(lineno)   " {{{
     return printf("%d(%d):%s", a:lineno, level, line)
 endfunction " }}}
 
-function! breadcrumb#echomsg()  " {{{
-    let start_lineno = line(".")
-
-    let current_lineno = start_lineno
-    let current_level = foldlevel(start_lineno)
+function! s:find_steps(initial_lineno)    " {{{
+    let lineno = a:initial_lineno
+    let level = foldlevel(a:initial_lineno)
     let steps = []
-    while current_level > 0
-        let current_lineno = current_lineno - 1
-        let new_level = foldlevel(current_lineno)
-        if new_level < current_level
-            call add(steps, current_lineno)
-            let current_level = new_level
+    while level > 0
+        let lineno = lineno - 1
+        let new_level = foldlevel(lineno)
+        if new_level < level
+            call add(steps, lineno)
+            let level = new_level
         endif
     endwhile
+    return reverse(steps)
+endfunction " }}}
 
-    let i = len(steps)-1
-    while i >= 0
-        echomsg breadcrumb#linetext(steps[i])
-        echomsg breadcrumb#linetext(steps[i]+1)
-        echomsg '...'
-        let i = i - 1
-    endwhile
-    echomsg breadcrumb#linetext(start_lineno)
+function! s:does_include(hunk, lineno)  " {{{
+    let [startpos, endpos] = a:hunk
+    return startpos <= a:lineno && a:lineno <= endpos
+endfunction "}}}
+
+function! s:is_adjacent(hunk, lineno)   " {{{
+    let [startpos, endpos] = a:hunk
+    return (!s:does_include(a:hunk, a:lineno)) && a:lineno <= endpos + 2
+endfunction " }}}
+
+function! s:hunks(steps, current_lineno)    " {{{
+    if empty(a:steps)
+        return [[a:current_lineno, a:current_lineno]]
+    endif
+    let offset = breadcrumb#offset()
+    let ctxt = breadcrumb#context()
+
+    " [(startpos, endpos)]
+    let hunks = [[a:steps[0]+offset, a:steps[0]+offset+ctxt-1]]
+    for step in a:steps
+        let lineno = step + offset
+        if s:does_include(hunks[-1], lineno)
+            continue
+        elseif s:is_adjacent(hunks[-1], lineno)
+            let new_hunk = [hunks[-1][0], lineno]
+            let hunks[-1] = new_hunk
+        else
+            call add(hunks, [lineno, lineno+ctxt-1])
+        endif
+    endfor
+    if s:is_adjacent(hunks[-1], a:current_lineno)
+        let new_hunk = [hunks[-1][0], a:current_lineno]
+        let hunks[-1] = new_hunk
+    else
+        call add(hunks, [a:current_lineno, a:current_lineno])
+    endif
+    return hunks
+endfunction " }}}
+
+function! breadcrumb#echomsg()  " {{{
+    let current_lineno = line(".")
+    let steps = s:find_steps(current_lineno)
+    let hunks = s:hunks(steps, current_lineno)
+
+    let emit_separater = 0
+    for hunk in hunks
+        if emit_separater
+            echomsg "..."
+        endif
+        let emit_separater = 1
+
+        let [startpos, endpos] = hunk
+        let lineno = startpos
+        while lineno <= endpos
+            echomsg breadcrumb#linetext(lineno)
+            let lineno = lineno + 1
+        endwhile
+    endfor
 endfunction " }}}
 
 let &cpo = s:save_cpo
