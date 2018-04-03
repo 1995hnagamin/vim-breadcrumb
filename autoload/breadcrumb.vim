@@ -57,6 +57,11 @@ function! s:does_include(hunk, lineno)  " {{{
     return startpos <= a:lineno && a:lineno <= endpos
 endfunction "}}}
 
+function! s:is_adjacent(hunk, lineno)   " {{{
+    let [startpos, endpos] = a:hunk
+    return (!s:does_include(a:hunk, a:lineno)) && a:lineno < endpos + 2
+endfunction " }}}
+
 function! breadcrumb#echomsg()  " {{{
     let current_lineno = line(".")
     let steps = s:find_steps(current_lineno)
