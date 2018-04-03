@@ -49,19 +49,19 @@ function! s:find_steps(start_lineno)    " {{{
             let current_level = new_level
         endif
     endwhile
-    return steps
+    return reverse(steps)
 endfunction " }}}
 
 function! breadcrumb#echomsg()  " {{{
     let start_lineno = line(".")
     let steps = s:find_steps(start_lineno)
 
-    let i = len(steps)-1
-    while i >= 0
+    let i = 0
+    while i < len(steps)
         echomsg breadcrumb#linetext(steps[i])
         echomsg breadcrumb#linetext(steps[i]+1)
         echomsg '...'
-        let i = i - 1
+        let i = i + 1
     endwhile
     echomsg breadcrumb#linetext(start_lineno)
 endfunction " }}}
