@@ -62,6 +62,27 @@ function! s:is_adjacent(hunk, lineno)   " {{{
     return (!s:does_include(a:hunk, a:lineno)) && a:lineno < endpos + 2
 endfunction " }}}
 
+function! s:hunks(steps, current_lineno)    " {{{
+    call add(a:steps, a:current_lineno)
+    let offset = breadcrumb#offset()
+    let ctxt = breadcrumb#context()
+
+    " [(startpos, endpos)]
+    let hunks = [[a:steps[0]+offset, a:steps[0]+offset+ctxt-1]]
+    for step in a:steps
+        let lineno = step + offset
+        if s:does_include(hunks[-1], lineno)
+            continue
+        elseif s:is_adjacent(hunks[-1], lineno)
+            let new_hunk = [hunks[-1][0], lineno]
+            let hunks[-1] = new_hunk
+        else
+            call add(hunks, [lineno, lineno+ctxt-1])
+        endif
+    endfor
+    return hunks
+endfunction " }}}
+
 function! breadcrumb#echomsg()  " {{{
     let current_lineno = line(".")
     let steps = s:find_steps(current_lineno)
