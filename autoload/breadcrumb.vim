@@ -59,7 +59,7 @@ endfunction "}}}
 
 function! s:is_adjacent(hunk, lineno)   " {{{
     let [startpos, endpos] = a:hunk
-    return (!s:does_include(a:hunk, a:lineno)) && a:lineno < endpos + 2
+    return (!s:does_include(a:hunk, a:lineno)) && a:lineno <= endpos + 2
 endfunction " }}}
 
 function! s:hunks(steps, current_lineno)    " {{{
