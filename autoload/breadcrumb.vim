@@ -37,11 +37,9 @@ function! breadcrumb#linetext(lineno)   " {{{
     return printf("%d(%d):%s", a:lineno, level, line)
 endfunction " }}}
 
-function! breadcrumb#echomsg()  " {{{
-    let start_lineno = line(".")
-
-    let current_lineno = start_lineno
-    let current_level = foldlevel(start_lineno)
+function! s:find_steps(start_lineno)    " {{{
+    let current_lineno = a:start_lineno
+    let current_level = foldlevel(a:start_lineno)
     let steps = []
     while current_level > 0
         let current_lineno = current_lineno - 1
@@ -51,6 +49,12 @@ function! breadcrumb#echomsg()  " {{{
             let current_level = new_level
         endif
     endwhile
+    return steps
+endfunction " }}}
+
+function! breadcrumb#echomsg()  " {{{
+    let start_lineno = line(".")
+    let steps = s:find_steps(start_lineno)
 
     let i = len(steps)-1
     while i >= 0
