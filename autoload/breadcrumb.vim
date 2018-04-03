@@ -63,7 +63,9 @@ function! s:is_adjacent(hunk, lineno)   " {{{
 endfunction " }}}
 
 function! s:hunks(steps, current_lineno)    " {{{
-    call add(a:steps, a:current_lineno)
+    if empty(a:steps)
+        return [[a:current_lineno, a:current_lineno]]
+    endif
     let offset = breadcrumb#offset()
     let ctxt = breadcrumb#context()
 
@@ -80,6 +82,12 @@ function! s:hunks(steps, current_lineno)    " {{{
             call add(hunks, [lineno, lineno+ctxt-1])
         endif
     endfor
+    if s:is_adjacent(hunks[-1], a:current_lineno)
+        let new_hunk = [hunks[-1][0], a:current_lineno]
+        let hunks[-1] = new_hunk
+    else
+        call add(hunks, [a:current_lineno, a:current_lineno])
+    endif
     return hunks
 endfunction " }}}
 
