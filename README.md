@@ -7,7 +7,7 @@ breadcrumb.vim
 
 ダウンロードした[zipファイル](https://github.com/1995hnagamin/vim-breadcrumb/releases)を
 `~/.vim/plugin`以下に展開してください。
-詳細については、[:help add-global-plugin](http://vim-jp.org/vimdoc-ja/usr_05.html#05.5)を参照してください。
+詳細については、[:help add-global-plugin](http://vim-jp.org/vimdoc-ja/usr_05.html#add-global-plugin)を参照してください。
 
 ### dein.vim
 
