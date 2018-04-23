@@ -18,9 +18,9 @@ vimrcに次の1行を追加してください。
 call dein#add('1995hnagamin/vim-breadcrumb')
 ```
 
-### Vim-Plug
+### vim-plug
 
-[Vim-Plug](https://github.com/junegunn/vim-plug)を使う場合、
+[vim-plug](https://github.com/junegunn/vim-plug)を使う場合、
 vimrcに次の1行を追加してください。
 
 ```
